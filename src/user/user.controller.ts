@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Param, UseGuards, Patch } from '@nestjs/co
 import { UserService } from './user.service';
 import { UserRole } from './user.entity';
 import { JwtAuthAdminGuard } from '../auth/jwt-auth.guard';
+import { UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private userService: UserService) {}
 

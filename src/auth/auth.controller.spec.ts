@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -11,6 +12,7 @@ describe('AuthController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
+        JwtService,
         {
           provide: AuthService,
           useValue: {
@@ -28,7 +30,11 @@ describe('AuthController', () => {
 
   describe('register', () => {
     it('should call authService.register with the correct parameters', async () => {
-      const userData = { email: 'test@example.com', password: 'password', name: 'Test User' };
+      const userData = {
+        email: 'test@example.com',
+        password: 'password',
+        name: 'Test User',
+      };
       await authController.register(userData);
       expect(authService.register).toHaveBeenCalledWith(userData);
     });
@@ -67,15 +73,25 @@ describe('AuthController', () => {
 
     it('should throw UnauthorizedException if no token is provided', async () => {
       const mockRequest = { headers: {} };
-      await expect(authController.logout(mockRequest)).rejects.toThrow(UnauthorizedException);
+      await expect(authController.logout(mockRequest)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
 
     it('should throw UnauthorizedException if token is invalid', async () => {
+      const mockToken = 'invalidToken';
       const mockRequest = {
-        headers: { authorization: 'Bearer mockToken' },
+        headers: { authorization: `Bearer ${mockToken}` },
         user: {},
       };
-      await expect(authController.logout(mockRequest)).rejects.toThrow(UnauthorizedException);
+
+      jest.spyOn(authService, 'logout').mockImplementation(() => {
+        throw new UnauthorizedException('Invalid token');
+      });
+
+      await expect(authController.logout(mockRequest)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 });
