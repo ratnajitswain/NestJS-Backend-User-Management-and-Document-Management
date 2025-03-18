@@ -33,10 +33,7 @@ export class JwtAuthGuard implements CanActivate {
 
 @Injectable()
 export class JwtAuthAdminGuard extends JwtAuthGuard {
-  constructor(
-    jwtService: JwtService,
-    authService: AuthService,
-  ) {
+  constructor(jwtService: JwtService, authService: AuthService) {
     super(jwtService, authService);
   }
 
