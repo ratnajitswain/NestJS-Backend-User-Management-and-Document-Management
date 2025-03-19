@@ -26,7 +26,7 @@ export class DocumentController {
     return { userId: req.user.id, isAdmin: req.user.role === UserRole.ADMIN };
   }
 
-  @Post()
+  @Post('/create')
   @UseGuards(JwtAuthGuard)
   async create(
     @Body() documentData: { title: string; content: string },
