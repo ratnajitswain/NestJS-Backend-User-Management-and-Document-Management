@@ -6,10 +6,7 @@ import { Document } from './document.entity';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Document]),
-    forwardRef(() => AuthModule), // Import AuthModule here
-  ],
+  imports: [TypeOrmModule.forFeature([Document]), forwardRef(() => AuthModule)],
   providers: [DocumentService],
   controllers: [DocumentController],
   exports: [DocumentService],
