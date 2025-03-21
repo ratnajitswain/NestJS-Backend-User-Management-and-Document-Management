@@ -86,7 +86,7 @@ Create a `.env` file in the root directory and add the following variables:
 
 ```env
 PORT=3000
-DB_HOST=localhost
+DB_HOST=db
 DB_PORT=5432
 DB_USER=postgres
 DB_PASS=pgsql
