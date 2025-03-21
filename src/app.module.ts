@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { DocumentModule } from './document/document.module';
 import { DatabaseModule } from './database/database.module';
+import { IngestionModule } from './ingestion/ingestion.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { DatabaseModule } from './database/database.module';
     UserModule,
     DocumentModule,
     DatabaseModule,
+    IngestionModule,
   ],
 })
 export class AppModule {}
